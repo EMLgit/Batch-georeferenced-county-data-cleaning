@@ -3,21 +3,22 @@ library(sf)
 library(tigris)
 library(cdlTools) #this is probably new to you; install it
 library(ggplot2)
+library(dplyr)
+library(stringr)
+
 
 
 #load coordinate data
-coords <- read.csv("/Users/elizabethlombardi/Desktop/Research/UNM/Fixing Herbarium County data/unmbatchrefissues.csv", header=TRUE)
+coords<- read.csv("~/Desktop/Research/UNM/Fixing Herbarium County data/unmbatchrefissues.csv")
 coords.sf <- as.data.frame(coords) %>% 
-  filter(!decimalLongitude=="") %>%
-  filter(!decimalLatitude=="") %>%
+  filter(!decimalLongitude == "") %>%
+  filter(!decimalLatitude == "") %>%
   st_as_sf(coords=c("decimalLongitude","decimalLatitude"), crs=4326, remove=FALSE) %>%
   st_transform(crs=4326)
 
 
 
 #load county data from Tigris package
-
-library(tigris)
 nm <- counties("New Mexico") 
 nm.prj <- st_as_sf(nm) %>%
   st_transform(crs=4326)
